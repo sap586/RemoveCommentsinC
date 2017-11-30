@@ -1,0 +1,39 @@
+import java.io.*;
+
+class RemoveComments {
+    public static void main(String[] args) throws Exception {
+        FileWriter fw = new FileWriter("out.cpp");        //output File name
+        FileReader fr = new FileReader("abc.txt");        //input File name
+        int i = fr.read();
+        int a = 0;
+        char next;
+        while (i != -1) {
+            if (a == 0) {
+                if ((char)i != '/') {
+                    fw.write((char)i);
+                }
+                if ((char)i == '/') {
+                    next = (char)fr.read();
+                    if (next != '*') {
+                        fw.write("/");
+                        fw.write(next);
+                    }
+                    if (next == '*') {
+                        a = 1;
+                    }
+                }
+                i = fr.read();
+            }
+            if (a == 1) {
+                if (i == '*') {
+                    next = (char)fr.read();
+                    if (next == '/') {
+                        a = 0;
+                    }
+                }
+                i = fr.read();
+            }
+        }
+        fw.close();
+    }
+}
